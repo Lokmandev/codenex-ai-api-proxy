@@ -1,0 +1,197 @@
+# ========================================
+# CODENEX-AI-PROXY-API .gitignore
+# ========================================
+
+# ----------------------------------------
+# Dependencies
+# ----------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# ----------------------------------------
+# Build Output
+# ----------------------------------------
+dist/
+build/
+*.tsbuildinfo
+
+# ----------------------------------------
+# Environment & Configuration
+# ----------------------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# ----------------------------------------
+# OAuth Credentials & Secrets
+# ----------------------------------------
+# Gemini OAuth credentials
+configs/gemini/
+configs/antigravity/
+
+# Configuration files (exclude all except examples)
+configs/*
+!configs/*.example
+!configs/*.txt
+
+# Any OAuth credential files
+**/oauth_creds.json
+**/oauth_credentials.json
+**/*_oauth_creds.json
+**/*credentials*.json
+
+# API Keys and secrets
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+.secrets/
+
+# ----------------------------------------
+# Logs
+# ----------------------------------------
+logs/
+*.log
+logs/*.log
+*.log.*
+
+# ----------------------------------------
+# Runtime & Cache
+# ----------------------------------------
+.cache/
+.tmp/
+tmp/
+temp/
+*.pid
+*.seed
+*.pid.lock
+
+# ----------------------------------------
+# IDE & Editor
+# ----------------------------------------
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains (WebStorm, IntelliJ)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*.swn
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+# ----------------------------------------
+# OS Generated Files
+# ----------------------------------------
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.AppleDouble
+.LSOverride
+Icon
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ----------------------------------------
+# Docker
+# ----------------------------------------
+.docker/
+docker-compose.override.yml
+docker-compose.local.yml
+
+# ----------------------------------------
+# Testing
+# ----------------------------------------
+coverage/
+.nyc_output/
+*.lcov
+.coverage
+htmlcov/
+test-results/
+jest-results/
+
+# ----------------------------------------
+# Documentation Build
+# ----------------------------------------
+docs/_build/
+site/
+.docusaurus/
+
+# ----------------------------------------
+# Miscellaneous
+# ----------------------------------------
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*.patch
+
+# Compressed files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+
+# ----------------------------------------
+# Project Specific
+# ----------------------------------------
+# Uploaded config files (keep structure, ignore contents)
+# configs/uploads/
+
+# Prompt logs (sensitive data)
+prompt_logs/
+conversation_logs/
+
+# Local development overrides
+local/
+.local/
