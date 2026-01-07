@@ -1,0 +1,85 @@
+services:
+  # PostgreSQL for metrics storage
+  postgres:
+    image: postgres:16-alpine
+    container_name: ai-proxy-postgres
+    environment:
+      POSTGRES_USER: ai_proxy
+      POSTGRES_PASSWORD: ai_proxy_password
+      POSTGRES_DB: ai_proxy
+    ports:
+      - "5433:5432"  # Use 5433 to avoid conflict with parent postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ai_proxy -d ai_proxy"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: ai-proxy-redis
+    command: redis-server --appendonly yes --requirepass ai_proxy_redis_password
+    ports:
+      - "6380:6379"  # Use 6380 to avoid conflict with parent redis
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "ai_proxy_redis_password", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # CODENEX-AI-PROXY-API
+  ai-proxy-api:
+    build: .
+    container_name: ai-proxy-api
+    ports:
+      - "3000:3000"      # Main API & Web UI
+      - "8085:8085"      # Gemini OAuth callback
+      - "8086:8086"      # Antigravity OAuth callback
+    volumes:
+      # Configuration + Credentials (read-write for pool state & token refresh)
+      - ./configs:/app/configs
+      # Logs
+      - ./logs:/app/logs
+      # Claude Code CLI credentials (required for claudeCode-custom provider)
+      - ~/.claude:/root/.claude
+    environment:
+      - NODE_ENV=production
+      # PostgreSQL connection
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=ai_proxy
+      - POSTGRES_USER=ai_proxy
+      - POSTGRES_PASSWORD=ai_proxy_password
+      # Redis connection
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=ai_proxy_redis_password
+      - REDIS_ENABLED=true
+      # Cache settings
+      - CACHE_ENABLED=true
+      - CACHE_TTL_SECONDS=3600
+      # OAuth external host for ALB/reverse proxy
+      - OAUTH_EXTERNAL_HOST=${OAUTH_EXTERNAL_HOST:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 3s
+      start_period: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+  redis_data:
