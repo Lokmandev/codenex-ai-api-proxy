@@ -167,6 +167,38 @@ USE_SYSTEM_PROXY_OPENAI=true
 USE_SYSTEM_PROXY_CLAUDE=true
 ```
 
+### Google OAuth Setup (Required for Gemini Providers)
+
+To use `gemini-cli-oauth` or `gemini-antigravity` providers, you need to create Google OAuth credentials.
+
+1.  **Create a Google Cloud Project**
+    *   Go to [Google Cloud Console](https://console.cloud.google.com/).
+    *   Create a new project.
+
+2.  **Enable APIs**
+    *   Go to **APIs & Services > Library**.
+    *   Enable **"Google Cloud Platform API"**.
+
+3.  **Configure Consent Screen**
+    *   Go to **APIs & Services > OAuth consent screen**.
+    *   Select **External** (for personal/testing) or **Internal**.
+    *   Fill in required details (App name, email).
+    *   Add scope: `https://www.googleapis.com/auth/cloud-platform`.
+    *   Add your email as a **Test User**.
+
+4.  **Create Credentials**
+    *   Go to **APIs & Services > Credentials**.
+    *   Click **+ CREATE CREDENTIALS** > **OAuth client ID**.
+    *   Type: **Web application**.
+    *   Name: "Gemini Proxy".
+    *   **Authorized redirect URIs** (Add both):
+        *   `http://localhost:8085` (For Gemini CLI provider)
+        *   `http://localhost:8086` (For Antigravity provider)
+
+5.  **Configure Environment**
+    *   Copy the **Client ID** and **Client Secret**.
+    *   Add them to your `.env` file (see [Environment Variables](#environment-variables)).
+
 ### Provider Configuration
 
 Providers can be configured via the Web UI at `http://localhost:3000` or by editing configuration files in the `configs/` directory.
