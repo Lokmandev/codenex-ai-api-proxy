@@ -40,7 +40,7 @@ export class UsageService {
     async getAllUsage() {
         const results = {};
         const poolManager = getProviderPoolManager();
-        
+
         for (const [providerType, handler] of Object.entries(this.providerHandlers)) {
             try {
                 // Check if there is a pool configuration
@@ -74,7 +74,7 @@ export class UsageService {
                 results[providerType] = [{ uuid: 'default', error: error.message }];
             }
         }
-        
+
         return results;
     }
 
@@ -86,7 +86,7 @@ export class UsageService {
     async getGeminiUsage(uuid = null) {
         const providerKey = uuid ? MODEL_PROVIDER.GEMINI_CLI + uuid : MODEL_PROVIDER.GEMINI_CLI;
         const adapter = serviceInstances[providerKey];
-        
+
         if (!adapter) {
             throw new Error(`Gemini CLI service instance not found: ${providerKey}`);
         }
@@ -112,7 +112,7 @@ export class UsageService {
     async getAntigravityUsage(uuid = null) {
         const providerKey = uuid ? MODEL_PROVIDER.ANTIGRAVITY + uuid : MODEL_PROVIDER.ANTIGRAVITY;
         const adapter = serviceInstances[providerKey];
-        
+
         if (!adapter) {
             throw new Error(`Antigravity service instance not found: ${providerKey}`);
         }
@@ -165,7 +165,7 @@ export function formatGeminiUsage(usageData) {
             const utcDate = new Date(utcString);
             const beijingTime = new Date(utcDate.getTime() + TZ_OFFSET);
             return beijingTime
-                .toLocaleString('zh-CN', {
+                .toLocaleString('en', {
                     month: '2-digit',
                     day: '2-digit',
                     hour: '2-digit',
@@ -220,7 +220,7 @@ export function formatGeminiUsage(usageData) {
             // remaining is a ratio between 0-1, representing remaining quota percentage
             const remainingPercent = typeof modelInfo.remaining === 'number' ? modelInfo.remaining : 1;
             const usedPercent = 1 - remainingPercent;
-            
+
             const item = {
                 resourceType: 'MODEL_USAGE',
                 displayName: modelInfo.displayName || modelName,
@@ -240,7 +240,7 @@ export function formatGeminiUsage(usageData) {
 
                 // Next reset time
                 nextDateReset: modelInfo.resetTimeRaw ? new Date(modelInfo.resetTimeRaw).toISOString() :
-                               (modelInfo.resetTime ? new Date(modelInfo.resetTime).toISOString() : null),
+                    (modelInfo.resetTime ? new Date(modelInfo.resetTime).toISOString() : null),
 
                 // Free trial information
                 freeTrial: null,
@@ -255,7 +255,7 @@ export function formatGeminiUsage(usageData) {
                 remaining: remainingPercent,
                 remainingPercent: Math.round(remainingPercent * 100), // Remaining percentage
                 resetTime: (modelInfo.resetTimeRaw || modelInfo.resetTime) ?
-                           utcToBeijing(modelInfo.resetTimeRaw || modelInfo.resetTime) : '--',
+                    utcToBeijing(modelInfo.resetTimeRaw || modelInfo.resetTime) : '--',
                 resetTimeRaw: modelInfo.resetTimeRaw || modelInfo.resetTime || null
             };
 
@@ -289,7 +289,7 @@ export function formatAntigravityUsage(usageData) {
             const utcDate = new Date(utcString);
             const beijingTime = new Date(utcDate.getTime() + TZ_OFFSET);
             return beijingTime
-                .toLocaleString('zh-CN', {
+                .toLocaleString('en', {
                     month: '2-digit',
                     day: '2-digit',
                     hour: '2-digit',
@@ -364,7 +364,7 @@ export function formatAntigravityUsage(usageData) {
 
                 // Next reset time
                 nextDateReset: modelInfo.resetTimeRaw ? new Date(modelInfo.resetTimeRaw).toISOString() :
-                               (modelInfo.resetTime ? new Date(modelInfo.resetTime).toISOString() : null),
+                    (modelInfo.resetTime ? new Date(modelInfo.resetTime).toISOString() : null),
 
                 // Free trial information
                 freeTrial: null,
@@ -379,7 +379,7 @@ export function formatAntigravityUsage(usageData) {
                 remaining: remainingPercent,
                 remainingPercent: Math.round(remainingPercent * 100), // Remaining percentage
                 resetTime: (modelInfo.resetTimeRaw || modelInfo.resetTime) ?
-                           utcToBeijing(modelInfo.resetTimeRaw || modelInfo.resetTime) : '--',
+                    utcToBeijing(modelInfo.resetTimeRaw || modelInfo.resetTime) : '--',
                 resetTimeRaw: modelInfo.resetTimeRaw || modelInfo.resetTime || null
             };
 

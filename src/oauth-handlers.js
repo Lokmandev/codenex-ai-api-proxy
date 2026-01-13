@@ -51,9 +51,9 @@ const activePollingTasks = new Map();
  */
 function generateResponsePage(isSuccess, message) {
     const title = isSuccess ? 'Authorization Successful!' : 'Authorization Failed';
-    
+
     return `<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -115,21 +115,21 @@ async function createOAuthCallbackServer(config, redirectUri, authClient, credPa
     const port = parseInt(options.port) || config.port;
     // First close any servers that may be running for this provider, or old servers on this port
     await closeActiveServer(provider, port);
-    
+
     return new Promise((resolve, reject) => {
         const server = http.createServer(async (req, res) => {
             try {
                 const url = new URL(req.url, redirectUri);
                 const code = url.searchParams.get('code');
                 const errorParam = url.searchParams.get('error');
-                
+
                 if (code) {
                     console.log(`${config.logPrefix} Received successful callback from Google: ${req.url}`);
-                    
+
                     try {
                         const { tokens } = await authClient.getToken(code);
                         let finalCredPath = credPath;
-                        
+
                         // If specified to save to configs directory
                         if (options.saveToConfigs) {
                             const providerDir = options.providerDir;
@@ -143,7 +143,7 @@ async function createOAuthCallbackServer(config, redirectUri, authClient, credPa
                         await fs.promises.mkdir(path.dirname(finalCredPath), { recursive: true });
                         await fs.promises.writeFile(finalCredPath, JSON.stringify(tokens, null, 2));
                         console.log(`${config.logPrefix} New token received and saved to file: ${finalCredPath}`);
-                        
+
                         const relativePath = path.relative(process.cwd(), finalCredPath);
 
                         // Broadcast authorization success event
@@ -153,10 +153,10 @@ async function createOAuthCallbackServer(config, redirectUri, authClient, credPa
                             relativePath: relativePath,
                             timestamp: new Date().toISOString()
                         });
-                        
+
                         // Auto-link newly generated credentials to Pools
                         await autoLinkProviderConfigs(CONFIG);
-                        
+
                         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
                         res.end(generateResponsePage(true, 'You can close this page'));
                     } catch (tokenError) {
@@ -171,7 +171,7 @@ async function createOAuthCallbackServer(config, redirectUri, authClient, credPa
                 } else if (errorParam) {
                     const errorMessage = `Authorization failed. Google returned error: ${errorParam}`;
                     console.error(`${config.logPrefix}`, errorMessage);
-                    
+
                     res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' });
                     res.end(generateResponsePage(false, errorMessage));
                     server.close(() => {
@@ -186,7 +186,7 @@ async function createOAuthCallbackServer(config, redirectUri, authClient, credPa
                 console.error(`${config.logPrefix} Error processing callback:`, error);
                 res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' });
                 res.end(generateResponsePage(false, `Server error: ${error.message}`));
-                
+
                 if (server.listening) {
                     server.close(() => {
                         activeServers.delete(provider);
@@ -194,7 +194,7 @@ async function createOAuthCallbackServer(config, redirectUri, authClient, credPa
                 }
             }
         });
-        
+
         server.on('error', (err) => {
             if (err.code === 'EADDRINUSE') {
                 console.error(`${config.logPrefix} Port ${port} is already in use`);
@@ -204,7 +204,7 @@ async function createOAuthCallbackServer(config, redirectUri, authClient, credPa
                 reject(err);
             }
         });
-        
+
         const host = '0.0.0.0';
         server.listen(port, host, () => {
             console.log(`${config.logPrefix} OAuth callback server started at ${host}:${port}`);
@@ -226,22 +226,22 @@ async function handleGoogleOAuth(providerKey, currentConfig, options = {}) {
     if (!config) {
         throw new Error(`Unknown provider: ${providerKey}`);
     }
-    
+
     const port = parseInt(options.port) || config.port;
     const externalHost = process.env.OAUTH_EXTERNAL_HOST;
     const redirectUri = externalHost
         ? `${externalHost}:${port}`
         : `http://localhost:${port}`;
-    
+
     const authClient = new OAuth2Client(config.clientId, config.clientSecret);
     authClient.redirectUri = redirectUri;
-    
+
     const authUrl = authClient.generateAuthUrl({
         access_type: 'offline',
         prompt: 'select_account',
         scope: config.scope
     });
-    
+
     // Start callback server
     const credPath = path.join(os.homedir(), config.credentialsDir, config.credentialsFile);
 
@@ -250,7 +250,7 @@ async function handleGoogleOAuth(providerKey, currentConfig, options = {}) {
     } catch (error) {
         throw new Error(`Failed to start callback server: ${error.message}`);
     }
-    
+
     return {
         authUrl,
         authInfo: {

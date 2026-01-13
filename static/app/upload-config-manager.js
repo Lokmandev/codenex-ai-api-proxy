@@ -72,13 +72,13 @@ function createConfigItemElement(config, index) {
     const statusText = config.isUsed ? 'In use' : 'Not in use';
 
     const typeIcon = config.type === 'oauth' ? 'fa-key' :
-                    config.type === 'api-key' ? 'fa-lock' :
-                    config.type === 'provider-pool' ? 'fa-network-wired' :
-                    config.type === 'system-prompt' ? 'fa-file-text' : 'fa-cog';
+        config.type === 'api-key' ? 'fa-lock' :
+            config.type === 'provider-pool' ? 'fa-network-wired' :
+                config.type === 'system-prompt' ? 'fa-file-text' : 'fa-cog';
 
     // Generate association details HTML
     const usageInfoHtml = generateUsageInfoHtml(config);
-    
+
     // Check if quick link is available (not linked and path contains supported provider directory)
     const providerInfo = detectProviderFromPath(config.path);
     const canQuickLink = !config.isUsed && providerInfo !== null;
@@ -135,14 +135,14 @@ function createConfigItemElement(config, index) {
     // Add button event listeners
     const viewBtn = item.querySelector('.btn-view');
     const deleteBtn = item.querySelector('.btn-delete-small');
-    
+
     if (viewBtn) {
         viewBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             viewConfig(config.path);
         });
     }
-    
+
     if (deleteBtn) {
         deleteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -180,7 +180,7 @@ function generateUsageInfoHtml(config) {
     }
 
     const { usageType, usageDetails } = config.usageInfo;
-    
+
     if (!usageDetails || usageDetails.length === 0) {
         return '';
     }
@@ -240,7 +240,7 @@ function formatFileSize(bytes) {
  */
 function formatDate(dateString) {
     const date = new Date(dateString);
-    return date.toLocaleString('zh-CN', {
+    return date.toLocaleString('en', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -287,7 +287,7 @@ async function loadConfigList() {
 
     isLoadingConfigs = true;
     console.log('Starting to load configuration list...');
-    
+
     try {
         const result = await window.apiClient.get('/upload-configs');
         allConfigs = result;
@@ -299,7 +299,7 @@ async function loadConfigList() {
     } catch (error) {
         console.error('Failed to load configuration list:', error);
         showToast('Error', 'Error: ' + error.message, 'error');
-        
+
         // Use mock data as example
         allConfigs = generateMockConfigData();
         filteredConfigs = [...allConfigs];
@@ -433,7 +433,7 @@ function showConfigModal(fileData) {
             </div>
         </div>
     `;
-    
+
     // Add to page
     document.body.appendChild(modal);
 
@@ -441,26 +441,26 @@ function showConfigModal(fileData) {
     const closeBtn = modal.querySelector('.btn-close-modal');
     const copyBtn = modal.querySelector('.btn-copy-content');
     const modalCloseBtn = modal.querySelector('.modal-close');
-    
+
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
             closeConfigModal();
         });
     }
-    
+
     if (copyBtn) {
         copyBtn.addEventListener('click', () => {
             const path = copyBtn.dataset.path;
             copyConfigContent(path);
         });
     }
-    
+
     if (modalCloseBtn) {
         modalCloseBtn.addEventListener('click', () => {
             closeConfigModal();
         });
     }
-    
+
     // Show modal
     setTimeout(() => modal.classList.add('show'), 10);
 }
@@ -496,7 +496,7 @@ async function copyConfigContent(path) {
             textarea.style.opacity = '0';
             document.body.appendChild(textarea);
             textarea.select();
-            
+
             try {
                 const successful = document.execCommand('copy');
                 if (successful) {
@@ -538,10 +538,10 @@ function showDeleteConfirmModal(config) {
     const title = isUsed ? 'Delete In-Use Configuration' : 'Delete Configuration';
     const icon = isUsed ? 'fas fa-exclamation-triangle' : 'fas fa-trash';
     const buttonClass = isUsed ? 'btn btn-danger' : 'btn btn-warning';
-    
+
     const modal = document.createElement('div');
     modal.className = modalClass;
-    
+
     modal.innerHTML = `
         <div class="delete-modal-content">
             <div class="delete-modal-header">
@@ -557,9 +557,9 @@ function showDeleteConfirmModal(config) {
                     </div>
                     <div class="warning-content">
                         ${isUsed ?
-                            `<h4>Warning: Configuration In Use</h4><p>This configuration file is currently being used by the system.</p>` :
-                            `<h4>Safe to Delete</h4><p>This configuration file is not currently in use.</p>`
-                        }
+            `<h4>Warning: Configuration In Use</h4><p>This configuration file is currently being used by the system.</p>` :
+            `<h4>Safe to Delete</h4><p>This configuration file is not currently in use.</p>`
+        }
                     </div>
                 </div>
 
@@ -611,7 +611,7 @@ function showDeleteConfirmModal(config) {
             </div>
         </div>
     `;
-    
+
     // Add to page
     document.body.appendChild(modal);
 
@@ -619,20 +619,20 @@ function showDeleteConfirmModal(config) {
     const closeBtn = modal.querySelector('.modal-close');
     const cancelBtn = modal.querySelector('.btn-cancel-delete');
     const confirmBtn = modal.querySelector('.btn-confirm-delete');
-    
+
     const closeModal = () => {
         modal.classList.remove('show');
         setTimeout(() => modal.remove(), 300);
     };
-    
+
     if (closeBtn) {
         closeBtn.addEventListener('click', closeModal);
     }
-    
+
     if (cancelBtn) {
         cancelBtn.addEventListener('click', closeModal);
     }
-    
+
     if (confirmBtn) {
         confirmBtn.addEventListener('click', () => {
             const path = confirmBtn.dataset.path;
@@ -640,14 +640,14 @@ function showDeleteConfirmModal(config) {
             closeModal();
         });
     }
-    
+
     // Close on outside click
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             closeModal();
         }
     });
-    
+
     // Close on ESC key
     const handleEsc = (e) => {
         if (e.key === 'Escape') {
@@ -656,7 +656,7 @@ function showDeleteConfirmModal(config) {
         }
     };
     document.addEventListener('keydown', handleEsc);
-    
+
     // Show modal
     setTimeout(() => modal.classList.add('show'), 10);
 }
@@ -691,7 +691,7 @@ async function deleteConfig(path) {
         showToast('Error', 'Configuration not found', 'error');
         return;
     }
-    
+
     // Show delete confirmation modal
     showDeleteConfirmModal(config);
 }
@@ -784,7 +784,7 @@ async function reloadConfig() {
  */
 function detectProviderFromPath(filePath) {
     const normalizedPath = filePath.replace(/\\/g, '/').toLowerCase();
-    
+
     // Define directory to provider mapping
     const providerMappings = [
         {
@@ -836,7 +836,7 @@ async function quickLinkProviderConfig(filePath) {
         });
 
         showToast('Success', result.message || 'Link successful', 'success');
-        
+
         // Refresh configuration list
         await loadConfigList();
     } catch (error) {
@@ -855,12 +855,12 @@ async function batchLinkProviderConfigs() {
         const providerInfo = detectProviderFromPath(config.path);
         return providerInfo !== null;
     });
-    
+
     if (unlinkedConfigs.length === 0) {
         showToast('Info', 'No unlinked configurations found', 'info');
         return;
     }
-    
+
     // Group statistics by provider type
     const groupedByProvider = {};
     unlinkedConfigs.forEach(config => {
@@ -872,7 +872,7 @@ async function batchLinkProviderConfigs() {
             groupedByProvider[providerInfo.displayName]++;
         }
     });
-    
+
     const providerSummary = Object.entries(groupedByProvider)
         .map(([name, count]) => `${name}: ${count}`)
         .join(', ');
@@ -883,10 +883,10 @@ async function batchLinkProviderConfigs() {
     }
 
     showToast('Info', `Linking ${unlinkedConfigs.length} configurations...`, 'info');
-    
+
     let successCount = 0;
     let failCount = 0;
-    
+
     for (const config of unlinkedConfigs) {
         try {
             await window.apiClient.post('/quick-link-provider', {
@@ -898,10 +898,10 @@ async function batchLinkProviderConfigs() {
             failCount++;
         }
     }
-    
+
     // Refresh configuration list
     await loadConfigList();
-    
+
     if (failCount === 0) {
         showToast('Success', `Successfully linked ${successCount} configurations`, 'success');
     } else {
@@ -933,7 +933,7 @@ function debounce(func, wait) {
 async function downloadAllConfigs() {
     try {
         showToast('Info', 'Loading...', 'info');
-        
+
         // Use window.apiClient.get to get Blob data
         // Since apiClient may default to handling JSON, we need to call fetch directly or ensure apiClient supports returning raw response
         const token = localStorage.getItem('authToken');
@@ -942,7 +942,7 @@ async function downloadAllConfigs() {
         };
 
         const response = await fetch('/api/upload-configs/download-all', { headers });
-        
+
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.error?.message || 'Download failed');
@@ -952,7 +952,7 @@ async function downloadAllConfigs() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        
+
         // Extract filename from Content-Disposition, or use default name
         const contentDisposition = response.headers.get('Content-Disposition');
         let filename = `configs_backup_${new Date().toISOString().slice(0, 10)}.zip`;
@@ -960,13 +960,13 @@ async function downloadAllConfigs() {
             const matches = /filename="([^"]+)"/.exec(contentDisposition);
             if (matches && matches[1]) filename = matches[1];
         }
-        
+
         a.download = filename;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
-        
+
         showToast('Success', 'Download started', 'success');
     } catch (error) {
         console.error('Package download failed:', error);
